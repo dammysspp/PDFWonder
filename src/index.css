@@ -4,29 +4,89 @@
 
 @layer base {
   body {
-    @apply min-h-screen antialiased selection:bg-rose-500 selection:text-white transition-colors duration-200;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-family: 'Space Grotesk', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   }
+}
+
+/* Custom Neobrutalist Utility classes */
+.neo-border {
+  border: 2px solid #000000;
+}
+.dark .neo-border {
+  border: 2px solid #ffffff;
+}
+
+.neo-border-3 {
+  border: 3px solid #000000;
+}
+.dark .neo-border-3 {
+  border: 3px solid #ffffff;
+}
+
+.neo-shadow {
+  box-shadow: 4px 4px 0px 0px #000000;
+}
+.dark .neo-shadow {
+  box-shadow: 4px 4px 0px 0px #38bdf8;
+}
+
+.neo-shadow-sm {
+  box-shadow: 2px 2px 0px 0px #000000;
+}
+.dark .neo-shadow-sm {
+  box-shadow: 2px 2px 0px 0px #38bdf8;
+}
+
+.neo-shadow-lg {
+  box-shadow: 6px 6px 0px 0px #000000;
+}
+.dark .neo-shadow-lg {
+  box-shadow: 6px 6px 0px 0px #38bdf8;
+}
+
+.neo-btn {
+  border: 2px solid #000000;
+  box-shadow: 3px 3px 0px 0px #000000;
+  transition: all 0.1s ease;
+}
+.neo-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px 0px #000000;
+}
+.neo-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px 0px #000000;
+}
+
+.dark .neo-btn {
+  border: 2px solid #ffffff;
+  box-shadow: 3px 3px 0px 0px #38bdf8;
+}
+.dark .neo-btn:hover {
+  box-shadow: 4px 4px 0px 0px #38bdf8;
+}
+.dark .neo-btn:active {
+  box-shadow: 1px 1px 0px 0px #38bdf8;
 }
 
 /* Custom scrollbars */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #f1f5f9;
+  border-left: 2px solid #000000;
+}
+.dark ::-webkit-scrollbar-track {
+  background: #0b0f19;
+  border-left: 2px solid #ffffff;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
+  background: #2563eb;
+  border: 2px solid #000000;
 }
 .dark ::-webkit-scrollbar-thumb {
-  background: #334155;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
-}
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: #38bdf8;
+  border: 2px solid #ffffff;
 }

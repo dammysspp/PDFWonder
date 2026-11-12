@@ -27,14 +27,14 @@ export function App() {
   const [isLoadingFiles, setIsLoadingFiles] = useState(false);
   const [loadingStatus, setLoadingStatus] = useState<string>('');
 
-  // Dark / Light mode state
-  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
+  // Default mode is LIGHT mode as requested
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('theme');
       if (saved === 'dark' || saved === 'light') return saved;
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      return 'light'; // Default is light mode
     }
-    return 'dark';
+    return 'light';
   });
 
   useEffect(() => {
@@ -145,7 +145,6 @@ export function App() {
     setLoadingStatus('');
   };
 
-  // Selection toggle
   const handleSelectPage = (index: number, e: React.MouseEvent) => {
     setSelectedPageIndices((prev) => {
       const next = new Set(prev);
@@ -175,7 +174,6 @@ export function App() {
     }
   };
 
-  // Rotation
   const handleRotatePage = (id: string, delta: number) => {
     setPages((prev) =>
       prev.map((p) => {
@@ -209,7 +207,6 @@ export function App() {
     );
   };
 
-  // Deletion
   const handleDeletePage = (id: string) => {
     setPages((prev) => prev.filter((p) => p.id !== id));
     setSelectedPageIndices(new Set());
@@ -228,7 +225,6 @@ export function App() {
     }
   };
 
-  // Duplication
   const handleDuplicatePage = (id: string) => {
     const pageIndex = pages.findIndex((p) => p.id === id);
     if (pageIndex === -1) return;
@@ -245,13 +241,11 @@ export function App() {
     setPages(nextPages);
   };
 
-  // Reverse page order
   const handleReverseOrder = () => {
     setPages((prev) => [...prev].reverse());
     setSelectedPageIndices(new Set());
   };
 
-  // Drag and drop page reordering
   const handleDragStart = (e: React.DragEvent, index: number) => {
     setDraggedPageIndex(index);
     e.dataTransfer.effectAllowed = 'move';
@@ -288,7 +282,6 @@ export function App() {
     setDragOverIndex(null);
   };
 
-  // Page Editor Save Callback
   const handleSavePageEdits = (
     annotations: PageAnnotation[],
     rotation: number,
@@ -315,7 +308,6 @@ export function App() {
     );
   };
 
-  // Export to PDF
   const handleExport = async () => {
     if (pages.length === 0) return;
     setIsExporting(true);
@@ -335,10 +327,10 @@ export function App() {
 
       try {
         confetti({
-          particleCount: 80,
-          spread: 70,
+          particleCount: 90,
+          spread: 80,
           origin: { y: 0.6 },
-          colors: ['#f43f5e', '#ec4899', '#8b5cf6', '#3b82f6'],
+          colors: ['#2563eb', '#0284c7', '#000000', '#ffffff'],
         });
       } catch {
         // Confetti fallback
@@ -355,27 +347,30 @@ export function App() {
   const editingPageIndex = editingPage ? pages.findIndex((p) => p.id === editingPage.id) : -1;
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex flex-col font-sans selection:bg-rose-500 selection:text-white transition-colors duration-200">
-      {/* Navigation Bar */}
-      <header className="border-b border-slate-200 dark:border-slate-800/80 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md sticky top-0 z-40 transition-colors">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-rose-500 via-pink-500 to-amber-400 p-0.5 shadow-lg shadow-rose-500/20">
-              <div className="w-full h-full bg-white dark:bg-slate-950 rounded-[10px] flex items-center justify-center">
-                <FileText className="w-5 h-5 text-rose-500" />
-              </div>
+    <div className="min-h-screen bg-[#f8fafc] dark:bg-[#080c14] text-black dark:text-white flex flex-col font-sans transition-colors duration-150">
+      {/* Top Banner / Announcement */}
+      <div className="bg-black text-white dark:bg-blue-600 dark:text-white py-1 px-4 text-center text-[11px] font-black tracking-widest uppercase border-b-2 border-black dark:border-white">
+        PDFWONDER • POWERED BY SAMSCO COMMUNICATIONS • 100% PRIVATE CLIENT-SIDE ENGINE
+      </div>
+
+      {/* Main Header */}
+      <header className="border-b-3 border-black dark:border-white bg-white dark:bg-black sticky top-0 z-40 transition-colors">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
+          <div className="flex items-center space-x-3.5">
+            <div className="w-11 h-11 bg-blue-600 text-white neo-border-3 neo-shadow flex items-center justify-center">
+              <FileText className="w-6 h-6 stroke-[2.5]" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-lg font-black tracking-tight text-slate-900 dark:text-white">
-                  MakeMePDF
+                <span className="text-xl sm:text-2xl font-black tracking-tight text-black dark:text-white uppercase">
+                  PDFWonder
                 </span>
-                <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-rose-500/15 text-rose-600 dark:bg-rose-500/20 dark:text-rose-400 border border-rose-500/30">
-                  Pro Studio
+                <span className="text-[10px] font-black uppercase px-2 py-0.5 bg-blue-600 text-white neo-border">
+                  PRO
                 </span>
               </div>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
-                Merge • Rotate • Reorder • Annotate
+              <p className="text-xs font-bold text-blue-700 dark:text-blue-400 uppercase tracking-wider">
+                By Samsco Communications
               </p>
             </div>
           </div>
@@ -384,20 +379,21 @@ export function App() {
             {/* Theme Toggle Button */}
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100/80 dark:bg-slate-900/80 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors shadow-xs"
+              className="p-2 neo-border-3 neo-btn bg-white dark:bg-slate-900 text-black dark:text-white font-black"
               title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             >
               {theme === 'dark' ? (
-                <Sun className="w-4 h-4 text-amber-400" />
+                <Sun className="w-4 h-4 text-blue-400 stroke-[2.5]" />
               ) : (
-                <Moon className="w-4 h-4 text-slate-600" />
+                <Moon className="w-4 h-4 text-black stroke-[2.5]" />
               )}
             </button>
 
-            <div className="hidden sm:flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
-              <ShieldCheck className="w-4 h-4 text-emerald-500" />
-              <span>Client-side only & Private</span>
+            <div className="hidden md:flex items-center gap-1.5 text-xs font-black uppercase bg-blue-100 dark:bg-blue-950 px-3 py-1.5 neo-border">
+              <ShieldCheck className="w-4 h-4 text-blue-600 dark:text-blue-400 stroke-[2.5]" />
+              <span>Private & Client-Side</span>
             </div>
+
             {pages.length > 0 && (
               <FileDropzone onFilesAdded={handleFilesAdded} isLoading={isLoadingFiles} compact />
             )}
@@ -408,18 +404,18 @@ export function App() {
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col">
         {pages.length === 0 ? (
-          /* Empty State / Hero Section */
+          /* Empty State / Neobrutalist Hero Section */
           <div className="flex-1 flex flex-col items-center justify-center px-4 py-12 md:py-20 max-w-5xl mx-auto w-full">
             <div className="text-center space-y-4 mb-10">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300 shadow-xs">
-                <Sparkles className="w-3.5 h-3.5 text-rose-500" />
-                <span>The complete browser-based PDF suite</span>
+              <div className="inline-flex items-center gap-2 px-3 py-1 neo-border bg-white dark:bg-black text-xs font-black uppercase neo-shadow-sm">
+                <Sparkles className="w-4 h-4 text-blue-600 fill-current" />
+                <span>PDFWonder (By Samsco Communications)</span>
               </div>
-              <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-slate-900 dark:text-white max-w-3xl leading-[1.1]">
-                Merge, Rotate & Edit PDFs and Images Seamlessly
+              <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-black dark:text-white max-w-3xl leading-[1.1] uppercase">
+                The Ultimate <span className="text-blue-600 underline decoration-4 underline-offset-6">Client-Side</span> PDF Studio
               </h1>
-              <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
-                Combine PDFs with images, rearrange pages with smooth drag-and-drop, rotate individual sheets, and annotate or draw before exporting.
+              <p className="text-base sm:text-lg font-bold text-slate-700 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
+                Merge PDFs with images, rearrange pages seamlessly, rotate, crop, draw, and auto-scale before exporting—zero server uploads.
               </p>
             </div>
 
@@ -428,33 +424,33 @@ export function App() {
 
             {/* Feature Highlights Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 w-full">
-              <div className="p-5 rounded-2xl bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800/80 flex flex-col gap-2 shadow-xs">
-                <div className="w-9 h-9 rounded-xl bg-rose-500/10 text-rose-500 flex items-center justify-center font-bold">
-                  <Layers className="w-5 h-5" />
+              <div className="p-6 bg-white dark:bg-black neo-border-3 neo-shadow flex flex-col gap-3">
+                <div className="w-10 h-10 neo-border bg-blue-600 text-white flex items-center justify-center font-bold">
+                  <Layers className="w-5 h-5 stroke-[2.5]" />
                 </div>
-                <h3 className="font-semibold text-slate-900 dark:text-white text-sm">Merge PDFs & Images</h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                  Mix multiple PDF files with JPG, PNG, and WebP images. Each sheet is extracted into its own moveable card.
+                <h3 className="font-black text-black dark:text-white text-base uppercase">Merge PDFs & Images</h3>
+                <p className="text-xs font-semibold text-slate-700 dark:text-slate-300 leading-relaxed">
+                  Mix multiple PDF files with JPG, PNG, and WebP images. Each sheet is isolated into its own moveable card.
                 </p>
               </div>
 
-              <div className="p-5 rounded-2xl bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800/80 flex flex-col gap-2 shadow-xs">
-                <div className="w-9 h-9 rounded-xl bg-pink-500/10 text-pink-500 flex items-center justify-center font-bold">
-                  <Zap className="w-5 h-5" />
+              <div className="p-6 bg-white dark:bg-black neo-border-3 neo-shadow flex flex-col gap-3">
+                <div className="w-10 h-10 neo-border bg-white dark:bg-slate-900 text-blue-600 flex items-center justify-center font-bold">
+                  <Zap className="w-5 h-5 stroke-[2.5]" />
                 </div>
-                <h3 className="font-semibold text-slate-900 dark:text-white text-sm">Rotate & Rearrange Pages</h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                  Turn pages 90° clockwise or counter-clockwise individually or in bulk. Drag cards to change the final order seamlessly.
+                <h3 className="font-black text-black dark:text-white text-base uppercase">Rotate & Rearrange</h3>
+                <p className="text-xs font-semibold text-slate-700 dark:text-slate-300 leading-relaxed">
+                  Flip pages 90° clockwise or counter-clockwise. Drag and drop cards to change the final order seamlessly.
                 </p>
               </div>
 
-              <div className="p-5 rounded-2xl bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800/80 flex flex-col gap-2 shadow-xs">
-                <div className="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center font-bold">
-                  <Sparkles className="w-5 h-5" />
+              <div className="p-6 bg-white dark:bg-black neo-border-3 neo-shadow flex flex-col gap-3">
+                <div className="w-10 h-10 neo-border bg-black text-white dark:bg-white dark:text-black flex items-center justify-center font-bold">
+                  <Sparkles className="w-5 h-5 stroke-[2.5]" />
                 </div>
-                <h3 className="font-semibold text-slate-900 dark:text-white text-sm">Edit & Annotate Pages</h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                  Click any page to draw, highlight paragraphs, crop areas, or add text stamps directly on top of the document.
+                <h3 className="font-black text-black dark:text-white text-base uppercase">Crop, Draw & Annotate</h3>
+                <p className="text-xs font-semibold text-slate-700 dark:text-slate-300 leading-relaxed">
+                  Crop any image snippet, highlight paragraphs, sketch freehand, or stamp text blocks directly on any page.
                 </p>
               </div>
             </div>
@@ -480,19 +476,19 @@ export function App() {
             />
 
             {/* Instruction Banner */}
-            <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 pt-4 pb-2 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
-              <div className="flex items-center gap-1.5">
-                <Info className="w-3.5 h-3.5 text-rose-500" />
-                <span>Tip: Drag pages to reorder. Click a page card to select, or hover to click <strong>"Annotate / Edit"</strong>.</span>
+            <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 pt-4 pb-2 flex items-center justify-between text-xs font-bold text-black dark:text-white">
+              <div className="flex items-center gap-2 bg-blue-100 dark:bg-blue-950 px-3 py-1.5 neo-border">
+                <Info className="w-4 h-4 text-blue-600 dark:text-blue-400 stroke-[2.5]" />
+                <span>Drag cards to reorder. Hover over a page and click <strong>"Annotate / Crop"</strong> to edit.</span>
               </div>
-              <span className="hidden sm:inline text-slate-400 dark:text-slate-500 font-mono">
-                {pages.length} page{pages.length !== 1 ? 's' : ''} ready
+              <span className="hidden sm:inline font-black uppercase text-blue-700 dark:text-blue-400">
+                {pages.length} PAGE{pages.length !== 1 ? 'S' : ''} READY
               </span>
             </div>
 
             {/* Page Grid */}
             <div className="flex-1 max-w-7xl mx-auto w-full p-4 sm:p-6">
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-5">
                 {pages.map((page, index) => (
                   <PageCard
                     key={page.id}
@@ -520,13 +516,13 @@ export function App() {
 
       {/* Loading overlay during file ingestion */}
       {isLoadingFiles && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex flex-col items-center justify-center space-y-4">
-          <div className="w-16 h-16 rounded-2xl bg-rose-500/20 border border-rose-500/40 flex items-center justify-center">
-            <Loader2 className="w-8 h-8 text-rose-500 animate-spin" />
+        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex flex-col items-center justify-center space-y-4">
+          <div className="w-20 h-20 bg-blue-600 text-white neo-border-3 neo-shadow-lg flex items-center justify-center">
+            <Loader2 className="w-10 h-10 animate-spin stroke-[2.5]" />
           </div>
-          <div className="text-center space-y-1">
-            <h3 className="text-lg font-bold text-white">Importing Documents</h3>
-            <p className="text-sm text-slate-300">{loadingStatus || 'Processing...'}</p>
+          <div className="text-center space-y-1 bg-white dark:bg-black p-4 neo-border-3 neo-shadow">
+            <h3 className="text-base font-black uppercase text-black dark:text-white">Importing Documents</h3>
+            <p className="text-xs font-bold text-blue-600 dark:text-blue-400">{loadingStatus || 'Processing...'}</p>
           </div>
         </div>
       )}
@@ -544,8 +540,10 @@ export function App() {
       )}
 
       {/* Footer */}
-      <footer className="border-t border-slate-200 dark:border-slate-900 py-6 px-4 text-center text-xs text-slate-500">
-        <p>MakeMePDF Pro Studio • Private in-browser PDF manipulation. No documents ever leave your computer.</p>
+      <footer className="border-t-3 border-black dark:border-white py-6 px-4 text-center bg-white dark:bg-black">
+        <p className="text-xs font-black uppercase tracking-wider text-black dark:text-white">
+          PDFWonder • By Samsco Communications • All operations run 100% inside your browser
+        </p>
       </footer>
     </div>
   );

@@ -59,10 +59,10 @@ export const FileDropzone: React.FC<FileDropzoneProps> = ({
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         onClick={() => fileInputRef.current?.click()}
-        className={`flex items-center justify-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl border border-dashed cursor-pointer transition-all ${
+        className={`flex items-center justify-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-none neo-border font-bold text-xs sm:text-sm cursor-pointer transition-all neo-btn ${
           isDragOver
-            ? 'border-rose-400 bg-rose-500/10 text-rose-500 dark:text-rose-300'
-            : 'border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-900/60 hover:bg-slate-100 dark:hover:bg-slate-800/80 hover:border-slate-400 dark:hover:border-slate-600 text-slate-700 dark:text-slate-300 shadow-sm'
+            ? 'bg-blue-200 dark:bg-blue-900 translate-x-1 translate-y-1'
+            : 'bg-white dark:bg-black text-black dark:text-white hover:bg-blue-50 dark:hover:bg-slate-900'
         }`}
       >
         <input
@@ -74,8 +74,8 @@ export const FileDropzone: React.FC<FileDropzoneProps> = ({
           onChange={handleFileInputChange}
           disabled={isLoading}
         />
-        <FileUp className="w-4 h-4 text-rose-500" />
-        <span className="text-xs sm:text-sm font-semibold">Add PDFs / Images</span>
+        <FileUp className="w-4 h-4 text-blue-600 dark:text-blue-400 stroke-[2.5]" />
+        <span>+ Add PDFs / Images</span>
       </div>
     );
   }
@@ -86,10 +86,10 @@ export const FileDropzone: React.FC<FileDropzoneProps> = ({
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       onClick={() => fileInputRef.current?.click()}
-      className={`relative w-full max-w-3xl mx-auto rounded-3xl border-2 border-dashed p-10 md:p-16 text-center cursor-pointer transition-all duration-300 shadow-sm ${
+      className={`relative w-full max-w-3xl mx-auto neo-border-3 neo-shadow-lg p-10 md:p-14 text-center cursor-pointer transition-all duration-150 ${
         isDragOver
-          ? 'border-rose-500 bg-rose-500/10 scale-102 shadow-2xl shadow-rose-500/20 ring-4 ring-rose-500/20'
-          : 'border-slate-300 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-700 bg-white/70 dark:bg-slate-900/40 hover:bg-white dark:hover:bg-slate-900/70'
+          ? 'bg-blue-100 dark:bg-blue-950/60 translate-x-1 translate-y-1'
+          : 'bg-white dark:bg-black hover:bg-blue-50/50 dark:hover:bg-slate-900/40'
       }`}
     >
       <input
@@ -103,44 +103,44 @@ export const FileDropzone: React.FC<FileDropzoneProps> = ({
       />
 
       <div className="flex flex-col items-center justify-center space-y-4">
-        {/* Glow icon */}
+        {/* Neobrutalist Icon badge */}
         <div className="relative">
-          <div className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-rose-500 to-pink-500 flex items-center justify-center shadow-lg shadow-rose-500/30">
-            <UploadCloud className="w-10 h-10 text-white" />
+          <div className="w-20 h-20 bg-blue-600 text-white neo-border-3 neo-shadow flex items-center justify-center">
+            <UploadCloud className="w-10 h-10 stroke-[2.5]" />
           </div>
-          <div className="absolute -top-1 -right-1 bg-amber-400 p-1.5 rounded-full shadow-md text-slate-950">
-            <Sparkles className="w-3.5 h-3.5 fill-current" />
+          <div className="absolute -top-2 -right-2 bg-white text-black neo-border p-1 neo-shadow-sm font-black">
+            <Sparkles className="w-4 h-4 text-blue-600 fill-current" />
           </div>
         </div>
 
         <div className="space-y-1.5">
-          <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
+          <h3 className="text-2xl md:text-3xl font-black text-black dark:text-white tracking-tight uppercase">
             Drop your PDFs and Images here
           </h3>
-          <p className="text-sm text-slate-600 dark:text-slate-400 max-w-md">
-            Merge multiple PDFs, mix with PNG, JPG or WEBP images, rotate or edit individual pages, and rearrange with ease.
+          <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 max-w-md">
+            Merge multiple PDFs, mix with PNG, JPG or WEBP images, rotate, crop or annotate, and rearrange with zero hassle.
           </p>
         </div>
 
         <div className="flex items-center gap-3 pt-2">
           <button
             type="button"
-            className="px-6 py-2.5 rounded-xl font-semibold text-white bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 shadow-lg shadow-rose-500/25 transition-all transform hover:scale-105 active:scale-95 text-sm"
+            className="px-7 py-3 neo-border-3 neo-shadow bg-blue-600 hover:bg-blue-700 text-white font-black text-sm uppercase tracking-wider transition-all transform hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-1 active:translate-y-1"
           >
-            Select Files from Computer
+            Select Files From Device
           </button>
         </div>
 
-        <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400 pt-3">
-          <span className="flex items-center gap-1">
-            <FileUp className="w-3.5 h-3.5" /> PDF Documents
+        <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-bold text-black dark:text-white pt-3">
+          <span className="flex items-center gap-1.5 bg-blue-100 dark:bg-blue-950/80 px-2.5 py-1 neo-border">
+            <FileUp className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" /> PDF Documents
           </span>
-          <span>•</span>
-          <span className="flex items-center gap-1">
-            <ImageIcon className="w-3.5 h-3.5" /> JPG, PNG, WEBP
+          <span className="flex items-center gap-1.5 bg-white dark:bg-slate-900 px-2.5 py-1 neo-border">
+            <ImageIcon className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" /> JPG, PNG, WEBP
           </span>
-          <span>•</span>
-          <span>100% Private (Runs locally in browser)</span>
+          <span className="bg-black text-white dark:bg-white dark:text-black px-2.5 py-1 font-black uppercase text-[11px]">
+            100% Client-Side & Private
+          </span>
         </div>
       </div>
     </div>
